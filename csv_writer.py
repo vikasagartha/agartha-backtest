@@ -1,7 +1,7 @@
 import csv
 
 def write_results(portfolio, data, filename):
-    with open(f'{filename}.csv', 'w', newline='') as csvfile:
+    with open(f'charts/{filename}.csv', 'w', newline='') as csvfile:
         fieldnames = ['Transaction', 'Data']
         writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
         writer.writeheader()
