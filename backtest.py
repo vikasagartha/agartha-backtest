@@ -1,6 +1,6 @@
 import numpy as np
 from utils import destructure
-from identity import identity 
+from algorithms.identity import identity 
 
 def backtest(**kwargs):
 

@@ -1,6 +1,6 @@
 import numpy as np
 from backtest import backtest
-from sma import sma5020
+from algorithms.sma import sma5020
 #from coinToss import coinToss
 
 data = np.random.rand(100)
