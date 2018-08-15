@@ -1,11 +1,12 @@
 import numpy as np
 from utils import destructure
 from algorithms.identity import identity 
+from algorithms import Choice
 
 def backtest(**kwargs):
 
     defaults = {
-        'initial_portfolio': [False],
+        'initial_portfolio': [Choice.STAY],
         'algo': identity,
         'historical_price': [],
     }

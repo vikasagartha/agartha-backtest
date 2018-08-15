@@ -1,2 +1,4 @@
+from . import Choice
+
 def identity(**kwargs):
-    return kwargs['has_shares']
+    return Choice.BUY if kwargs['has_shares'] else Choice.SELL

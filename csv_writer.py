@@ -7,7 +7,7 @@ def write_results(portfolio, data, filename):
         writer.writeheader()
         for i in range(0, max(len(portfolio), len(data))):
             try:
-                transaction = portfolio[i]
+                transaction = str(portfolio[i]).replace('Choice.', '')
             except:
                 transaction = 'No transaction'
             try:

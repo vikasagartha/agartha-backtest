@@ -1,4 +1,5 @@
 from utils import destructure, sma
+from . import Choice
 
 _sma20 = sma(20)
 _sma50 = sma(50)
@@ -18,4 +19,11 @@ def sma5020(**kwargs):
     sma20 = _sma20(historical_price)
     sma50 = _sma50(historical_price)
 
-    return False if (len(sma20)<=index or len(sma50)<=index) else sma20[index] == sma50[index]
+    if len(sma20)>index and len(sma50)>index:
+        # If there is a crossover, we want to buy
+        if sma20[index] == sma50[index]: return Choice.BUY
+        # If short sma is greater than long sma, we want to stay
+        elif sma20[index] > sma50[index]: return Choice.STAY
+        # If long sma is greater than short sma, we want to sell
+        else: return Choice.SELL
+    return Choice.STAY
