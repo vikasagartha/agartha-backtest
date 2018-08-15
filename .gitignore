@@ -1,1 +1,5 @@
+# ignore cached python modules
 __pycache__
+
+# ignore outputted data
+*.csv
