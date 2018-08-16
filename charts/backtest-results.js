@@ -26,13 +26,12 @@ function drawCharts() {
                   .extent([[0, 0], [width, height2]])
                   .on('brush end', brushed);
 
-  /*
   const zoom = d3.zoom()
                  .scaleExtent([1, Infinity])
                  .translateExtent([[0, 0], [width, height]])
                  .extent([[0, 0], [width, height]])
                  .on('zoom', zoomed)
-  */
+
   const area = d3.area()
                  .curve(d3.curveMonotoneX)
                  .x(function(d) { return x(d.date) })
