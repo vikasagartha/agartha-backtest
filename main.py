@@ -7,6 +7,7 @@ from fetch_data import Data
 
 data = Data('AAPL')
 quote_data = data.get_quote_historicals()
+times = list(map(lambda entry: entry['begins_at'], quote_data))
 close_prices = list(map(lambda entry: float(entry['close_price']), quote_data))
 portfolio = backtest(historical_price=close_prices, algo=coinToss)
-write_results(portfolio, close_prices, 'results')
+write_results(portfolio, close_prices, times, 'results')
