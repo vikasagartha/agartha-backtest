@@ -1,5 +1,3 @@
-from enum import Enum
-
 """
     algorithms
 
@@ -9,8 +7,3 @@ consists of:
     * sma (SimpleMovingAverage)
     * identity
 """
-
-class Choice(Enum): 
-    BUY = 0
-    SELL = 1
-    STAY = 2
