@@ -24,9 +24,7 @@ class Data():
         }
     '''
     def get_fundamentals(self):
-        fundamental_command = f'curl -v
-        https://api.robinhood.com/fundamentals/{self.stock}/ -H "Accept:
-            application/json"'
+        fundamental_command = f'curl -v https://api.robinhood.com/fundamentals/{self.stock}/ -H "Accept: application/json"'
         p = subprocess.Popen(fundamental_command, shell=True, stdout=subprocess.PIPE, stderr= subprocess.PIPE)  
         out, err = p.communicate()
         parsed = json.loads(out)
