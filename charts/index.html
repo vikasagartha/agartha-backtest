@@ -1,14 +1,19 @@
 <!DOCTYPE html>
 <html>
   <script src="http://d3js.org/d3.v4.min.js"></script>
-  <script src="https://d3js.org/d3-queue.v3.min.js"></script>
   <head>
     <title>Backtest Results</title>
   </head>
 <style>
-  .area {
-    fill: steelblue;
+  .line {
+    fill: none;
     clip-path: url(#clip);
+  }
+  .line.investment {
+    stroke: orange;
+  }
+  .line.price {
+    stroke: blue;
   }
   .zoom {
     cursor: move;

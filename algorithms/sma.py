@@ -1,8 +1,11 @@
 from utils import destructure, sma
+from math import floor
 
-_sma20 = sma(20)
-_sma50 = sma(50)
-delta = 10.0
+fastDays = 20
+slowDays = 50
+_fast = sma(fastDays)
+_slow = sma(slowDays)
+delta = 0.1
 
 def sma5020(**kwargs):
 
@@ -11,21 +14,23 @@ def sma5020(**kwargs):
         'historical_price': [],
         'index': 0
     }
-    
+
     defaults.update(kwargs)
 
     n_shares, historical_price, index = destructure(defaults, ('n_shares', 'historical_price', 'index'))
 
-    sma20 = _sma20(historical_price)
-    sma50 = _sma50(historical_price)
+    fast = _fast(historical_price)
+    slow = _slow(historical_price)
 
-    try:
-        # check if there is a crossover
-        if abs(sma20[index]-sma50[index]) < delta:
-            if sma20[index+1] > sma50[index+1]:
-                return n_shares+1
-            elif n_shares>0:
-                return n_shares-1
-    except:
-        pass
+    fastindex = floor(index/fastDays)
+    #TODO double check the max logic
+    prevfastindex = max(0, floor((index-1)/fastDays))
+    slowindex = floor(index/slowDays)
+
+    if abs(fast[fastindex]-slow[slowindex]) < delta:
+        if fast[prevfastindex] > fast[fastindex]:
+            return 0
+        else:
+            return 1
+
     return n_shares
