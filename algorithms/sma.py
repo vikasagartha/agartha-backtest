@@ -1,38 +1,49 @@
 from utils import destructure, sma
-from math import floor
+from math import floor, isnan
 
 fastDays = 20
 slowDays = 50
 _fast = sma(fastDays)
 _slow = sma(slowDays)
-delta = 0.1
 
 def sma5020(**kwargs):
 
     defaults = {
-        'n_shares': 0,
+        'portfolio_state': {'balance': 0, 'n_shares': 0},
         'historical_data': [],
         'index': 0
     }
 
     defaults.update(kwargs)
 
-    n_shares, historical_data, index = destructure(defaults, ('n_shares', 'historical_data', 'index'))
+    portfolio_state, historical_data, index = destructure(defaults, ('portfolio_state',
+        'historical_data', 'index'))
+
+    if index == 0: return portfolio_state 
 
     closing_prices = [d['close_price'] for d in
             historical_data]
     fast = _fast(closing_prices)
     slow = _slow(closing_prices)
 
-    fastindex = floor(index/fastDays)
-    #TODO double check the max logic
-    prevfastindex = max(0, floor((index-1)/fastDays))
-    slowindex = floor(index/slowDays)
+    balance = portfolio_state['balance']
+    n_shares = portfolio_state['n_shares']
+    close_price = historical_data[index]['close_price']
+    sufficient_funds = balance > close_price
 
-    if abs(fast[fastindex]-slow[slowindex]) < delta:
-        if fast[prevfastindex] > fast[fastindex]:
-            return 0
-        else:
-            return 1
+    a = fast[index-1]
+    b = fast[index]
 
-    return n_shares
+    c = slow[index-1]
+    d = slow[index]
+
+    if isnan(c): return portfolio_state
+
+    if a/c<1 and b/d>1 and sufficient_funds:
+        portfolio_state = {'balance': balance - close_price, 'n_shares': 1}
+    elif a/c>1 and b/d<1 and n_shares > 0:
+        portfolio_state = {'balance': balance + close_price, 'n_shares': 0}
+    else:
+        pass
+
+    return portfolio_state 
