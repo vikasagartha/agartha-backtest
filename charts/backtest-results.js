@@ -17,6 +17,9 @@ function drawCharts() {
     y = d3.scaleLinear().range([height, 0]),
     y2 = d3.scaleLinear().range([height2, 0])
 
+  function make_y_gridlines() {return d3.axisLeft(y)}
+  function make_x_gridlines() {return d3.axisBottom(x)}
+
   const xAxis = d3.axisBottom(x),
     xAxis2 = d3.axisBottom(x2),
     yAxis = d3.axisLeft(y)
@@ -62,8 +65,6 @@ function drawCharts() {
     const data = csv.filter(function(key) {
       return key != 'Time' && key != 'Transaction' && key != 'Data'
     }) 
-
-    console.log(data)
 
     x.domain(d3.extent(data, function(d) { return d.date }))
     const priceDomain = d3.extent(data, function(d) { return d.price })
@@ -115,6 +116,21 @@ function drawCharts() {
       .attr('height', height)
       .attr('transform', 'translate(' + margin.left + ',' + margin.top + ')')
       .call(zoom)
+
+      focus.append('g')
+      .attr('class', 'grid')
+      .call(make_y_gridlines()
+          .tickSize(-width)
+          .tickFormat('')
+      )
+
+    focus.append('g')
+      .attr('class', 'grid')
+      .attr('transform', 'translate(0,' + height + ')')
+      .call(make_x_gridlines()
+        .tickSize(-height)
+        .tickFormat('')
+      )
   })
 
   function brushed() {
