@@ -1,2 +1,2 @@
 def identity(**kwargs):
-    return kwargs['n_shares']
+    return kwargs['portfolio_state']
