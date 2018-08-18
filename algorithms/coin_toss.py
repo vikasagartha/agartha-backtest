@@ -1,17 +1,18 @@
 from numpy.random import rand, random_sample
 from utils import destructure
 
-def coinToss(**kwargs):
+def coin_toss(**kwargs):
 
     defaults = {
         'n_shares': 0,
-        'historical_price': [],
+        'historical_data': [],
         'index': 0
     }
 
     defaults.update(kwargs)
 
-    n_shares, historical_price, index = destructure(defaults, ('n_shares', 'historical_price', 'index'))
+    n_shares, historical_data, index = destructure(defaults, ('n_shares',
+        'historical_data', 'index'))
 
     x = random_sample()
 

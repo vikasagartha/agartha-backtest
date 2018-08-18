@@ -142,9 +142,9 @@ function drawCharts() {
 
   function type(d) {
     return {
-      date: parseDate(d.Time),
-      price: +d.Data,
-      investment: +d.Transaction * +d.Data
+      date: parseDate(d.time),
+      price: +d.price,
+      investment: +d.n_shares * +d.price
     }
   }
 }

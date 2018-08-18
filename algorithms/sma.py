@@ -11,16 +11,18 @@ def sma5020(**kwargs):
 
     defaults = {
         'n_shares': 0,
-        'historical_price': [],
+        'historical_data': [],
         'index': 0
     }
 
     defaults.update(kwargs)
 
-    n_shares, historical_price, index = destructure(defaults, ('n_shares', 'historical_price', 'index'))
+    n_shares, historical_data, index = destructure(defaults, ('n_shares', 'historical_data', 'index'))
 
-    fast = _fast(historical_price)
-    slow = _slow(historical_price)
+    closing_prices = [d['close_price'] for d in
+            historical_data]
+    fast = _fast(closing_prices)
+    slow = _slow(closing_prices)
 
     fastindex = floor(index/fastDays)
     #TODO double check the max logic
