@@ -83,3 +83,47 @@ class Data():
         out, err = p.communicate()
         parsed = json.loads(out)
         return parsed['historicals']
+
+    '''
+    get_news - get news about a particular security for past month
+    Params:
+    Returns:
+        An array of dictionary entries containing:
+        {
+            "api_source": <API source>,
+            "author": <author>,
+            "instrument": <instrument>,
+            "num_clicks": <number of clicks on news item>,
+            "preview_image_url": <url>,
+            "preview_image_width": <width>,
+            "preview_image_height": <height>,
+            "published_at": <ISO891 date>,
+            "relay_url": <url>,
+            "source": <source name>,
+            "summary": <short description>,
+            "title": <title of news item>,
+            "updated_at": <ISO891 date>,
+            "uuid": <RobinHood id>,
+            "currency_id": <currency id>
+        }
+    '''
+    def get_news():
+        news = []
+        news_command = f'curl -v https://api.robinhood.com/midlands/news/{self.stock}/'
+        p = subprocess.Popen(news_command, shell=True, stdout=subprocess.PIPE, stderr= subprocess.PIPE)  
+        out, err = p.communicate()
+        parsed = json.loads(out)
+        news += parsed['results']
+        page = 1
+        valid_page = True
+        while valid_page:
+            news_command = f'curl -v https://api.robinhood.com/midlands/news/{stock}/?page={page}'
+            p = subprocess.Popen(news_command, shell=True, stdout=subprocess.PIPE, stderr= subprocess.PIPE)  
+            out, err = p.communicate()
+            parsed = json.loads(out)
+            if 'results' in parsed:
+                news += parsed['results']
+                page+=1
+            else:
+                valid_page = False
+        return news
