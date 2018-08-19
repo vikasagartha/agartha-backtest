@@ -1,8 +1,5 @@
+import sys
 import unittest
-import matplotlib.pyplot as plt
-from backtest import backtest
-from algorithms.sma import sma_fast_slow
-from utils import sma
 from math import isnan
 from datetime import datetime, timedelta
 from random import uniform
@@ -41,12 +38,47 @@ class TestSMA(unittest.TestCase):
         sma2 = sma(2)(closing_prices)
         sma4 = sma(4)(closing_prices)
 
+        # To confirm crossover points and buys
+        '''
+        import matplotlib.pyplot as plt
+        fig = plt.figure()
+        ax = fig.add_subplot(111)
         plt.plot(list(range(0, len(sma2))), sma2)
         plt.plot(list(range(0, len(sma4))), sma4)
-        
+        for xy in zip(list(range(0, len(sma2))), sma2):                                       # <--
+            ax.annotate('(%s, %s)' % xy, xy=xy, textcoords='data') # <--
+        plt.show()
+        '''
+
+        initial_balance = 1000000
+
         portfolio = backtest(historical_data=historical_data,
-                algo=sma_fast_slow, fast_rate=2, slow_rate=4,
-                initial_portfolio=[{'balance': 1000000, 'n_shares': 0}])
+                algo=sma_fast_slow(2, 4),
+                initial_portfolio=[{'balance': initial_balance, 'n_shares': 0}])
+
+        # confirm 2 buy and 2 sell points
+        self.assertEqual(portfolio[9], {
+            'balance': initial_balance-closing_prices[8],
+            'n_shares': 1
+            })
+
+        self.assertEqual(portfolio[11], {
+            'balance': initial_balance-closing_prices[8]+closing_prices[10]
+            , 'n_shares': 0})
+
+        self.assertEqual(portfolio[16], {
+            'balance':
+            initial_balance-closing_prices[8]+closing_prices[10]-closing_prices[15]
+            , 'n_shares': 1})
+
+        self.assertEqual(portfolio[19], {
+            'balance':
+            initial_balance-closing_prices[8]+closing_prices[10]-closing_prices[15]+closing_prices[18]
+            , 'n_shares': 0})
 
 if __name__ == '__main__':
+    sys.path.append('..')
+    from backtest import backtest
+    from algorithms.sma import sma_fast_slow
+    from utils import sma
     unittest.main()
