@@ -1,14 +1,11 @@
 from utils import destructure, sma
 from math import floor, isnan
 
-fastDays = 20
-slowDays = 50
-_fast = sma(fastDays)
-_slow = sma(slowDays)
-
-def sma5020(**kwargs):
+def sma_fast_slow(**kwargs):
 
     defaults = {
+        'fast_rate': 20,
+        'slow_rate': 50,
         'portfolio_state': {'balance': 0, 'n_shares': 0},
         'historical_data': [],
         'index': 0
@@ -16,8 +13,11 @@ def sma5020(**kwargs):
 
     defaults.update(kwargs)
 
-    portfolio_state, historical_data, index = destructure(defaults, ('portfolio_state',
-        'historical_data', 'index'))
+    portfolio_state, historical_data, index, fast_rate, slow_rate = destructure(defaults, ('portfolio_state',
+        'historical_data', 'index', 'fast_rate', 'slow_rate'))
+
+    _fast = sma(fast_rate)
+    _slow = sma(slow_rate)
 
     if index == 0: return portfolio_state 
 
