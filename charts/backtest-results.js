@@ -1,3 +1,9 @@
+function getFileMeta(fname){
+  d3.json(fname, function(error, meta) {
+    console.log(meta)
+  })
+}
+
 function drawCharts() {
   const svgWidth = 960, svgHeight = 500
   const margin = {top: 20, right: 20, bottom: 110, left: 40}
@@ -166,3 +172,4 @@ function drawCharts() {
 }
 
 drawCharts()
+getFileMeta('results.meta')
