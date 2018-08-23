@@ -1,6 +1,6 @@
 import subprocess, json
 
-class Data():  
+class RobinhoodData():  
     def __init__(self, stock):  
         self.stock = stock
     '''
@@ -77,7 +77,7 @@ class Data():
             "volume": <Volume traded>
         }
     '''
-    def get_quote_historicals(self, interval='day', span='year', bounds='extended'):
+    def get_quote_historicals(self, interval='day', span='5year', bounds='extended'):
         quote_command = f'curl -v https://api.robinhood.com/quotes/historicals/{self.stock}/?interval={interval}&span={span}&bounds={bounds}'
         p = subprocess.Popen(quote_command, shell=True, stdout=subprocess.PIPE, stderr= subprocess.PIPE)  
         out, err = p.communicate()

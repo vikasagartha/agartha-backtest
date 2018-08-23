@@ -66,6 +66,7 @@ function drawCharts() {
       return key != 'Time' && key != 'Transaction' && key != 'Data'
     }) 
 
+
     x.domain(d3.extent(data, function(d) { return d.date }))
     const priceDomain = d3.extent(data, function(d) { return d.price })
     const investDomain = d3.extent(data, function(d) { return d.investment })

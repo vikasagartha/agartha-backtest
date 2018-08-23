@@ -1,0 +1,1 @@
+QUANDL_API_KEY = 'UYK8yLxebzLQ2yZBxyGS'
